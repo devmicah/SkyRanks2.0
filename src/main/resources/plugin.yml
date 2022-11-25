@@ -1,0 +1,7 @@
+name: SkyRanks
+version: '${project.version}'
+main: dev.micah.skyranks.SkyRanks
+api-version: 1.13
+commands:
+  skyranks:
+    aliases: [sr, sranks, skyr, ranks, rank]
