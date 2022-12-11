@@ -2,6 +2,7 @@ package dev.micah.skyranks.ranks;
 
 import dev.micah.skyranks.SkyRanks;
 import dev.micah.skyranks.util.Chat;
+import lombok.Getter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -12,8 +13,11 @@ public class Ranks {
     public static List<String> getRanks() {
         return config.getStringList("ranks.registered");
     }
+    @Getter
     private static final YamlConfiguration config = SkyRanks.getPluginInstance().getRanksFile().getConfig();
+    @Getter
     private String rankIdentifier;
+    @Getter
     private Player player;
     private String path;
 
@@ -138,10 +142,6 @@ public class Ranks {
             player.sendMessage(Chat.color("&b[SkyRanks] &rThe color code you specified is invalid! &c(" + colorCode + ")"));
         }
         return this;
-    }
-
-    public String getRankIdentifier() {
-        return rankIdentifier;
     }
 
     public void destruct() {
