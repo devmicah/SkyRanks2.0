@@ -1,25 +1,29 @@
-package dev.micah.skyranks.io;
+package dev.micah.skyranks.file;
 
 import dev.micah.skyranks.SkyRanks;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 
-public class YamlFile {
+public class FileYaml {
 
     private SkyRanks plugin = SkyRanks.getPluginInstance();
 
+    @Getter
     private File file;
+    @Getter
     private File directory;
+    @Getter
     private YamlConfiguration config;
 
-    public YamlFile(String fileName, File directory) {
+    public FileYaml(String fileName, File directory) {
         this(new File(directory, (fileName.split("\\.").length >= 1 ? fileName.split("\\.")[0] : fileName) + ".yml"));
     }
 
-    public YamlFile(File file) {
+    public FileYaml(File file) {
         if (file == null || file.isDirectory()) { Bukkit.getLogger().severe("[SkyRanks] Failed to load a configuration file!"); return; }
         if (!file.exists()) {
             try {
@@ -30,18 +34,6 @@ public class YamlFile {
         config = YamlConfiguration.loadConfiguration(file);
         this.file = file;
         this.directory = plugin.getDataFolder();
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public YamlConfiguration getConfig() {
-        return config;
-    }
-
-    public File getDirectory() {
-        return directory;
     }
 
     public void save() {

@@ -19,71 +19,83 @@ public class GuiListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
+
         Player player = (Player) event.getWhoClicked();
         Inventory gui = event.getClickedInventory();
         ItemStack current = event.getCurrentItem();
+
         if (current != null) {
+
+            event.setCancelled(true);
             String itemName = ChatColor.stripColor(current.getItemMeta().getDisplayName());
+
             if (ChatColor.stripColor(event.getView().getTitle()).equals("Ranks")) {
-                event.setCancelled(true);
                 String pageItem = ChatColor.stripColor(gui.getItem(0).getItemMeta().getDisplayName());
                 int page = Integer.parseInt(pageItem.substring(pageItem.length() - 1));
-                if (itemName.equals("Create Rank")) {
-                    Conversation.startConversationCreateRank(player);
+                switch (itemName) {
+                    case "Create Rank":
+                        Conversation.buildConversation(player, Conversation.ConversationTopic.CREATE_RANK);
+                        break;
+                    case "Next Page":
+                        new GuiRanks(player, page + 1);
+                        break;
+                    case "Previous Page":
+                        new GuiRanks(player, page - 1);
+                        break;
+                    default:
+                        break;
                 }
-                if (itemName.equals("Next Page")) {
-                    new GuiRanks(player, page + 1);
-                }
-                if (itemName.equals("Previous Page")) {
-                    new GuiRanks(player, page - 1);
-                }
+
                 if (current.getType() == Material.NAME_TAG && (event.getClick() == ClickType.SHIFT_RIGHT || event.getClick() == ClickType.SHIFT_LEFT)) {
                     new GuiEditRank(player, ChatColor.stripColor(current.getItemMeta().getDisplayName()));
                 }
+
             }
+
             if (ChatColor.stripColor(event.getView().getTitle()).contains("Editing Rank")) {
+
                 Ranks rank = new Ranks(player, event.getView().getTitle().split(" ")[3].replaceAll(" ", ""));
-                event.setCancelled(true);
-                if (itemName.equals("Edit Prefix")) {
-                    Conversation.startConversationSetPrefix(player, rank);
+
+                switch (itemName) {
+                    case "Edit Prefix":
+                        Conversation.buildConversation(player, Conversation.ConversationTopic.SET_PREFIX);
+                        break;
+                    case "Edit Suffix":
+                        Conversation.buildConversation(player, Conversation.ConversationTopic.SET_SUFFIX);
+                        break;
+                    case "Change Chat Color":
+                        Conversation.buildConversation(player, Conversation.ConversationTopic.SET_CHAT_COLOR);
+                        break;
+                    case "Change Name Color":
+                        Conversation.buildConversation(player, Conversation.ConversationTopic.SET_NAME_COLOR);
+                        break;
+                    case "Change Nickable":
+                        player.closeInventory();
+                        rank.setNickable(!rank.isNickable());
+                        if (rank.isNickable()) {
+                            player.sendMessage(Chat.color("&b[SkyRanks] &rUsers can now /nick as &b" + rank.getRankIdentifier()));
+                        } else {
+                            player.sendMessage(Chat.color("&b[SkyRanks] &rUsers can no longer /nick as &b" + rank.getRankIdentifier()));
+                        }
+                        break;
+                    case "Set Default":
+                        player.closeInventory();
+                        if (rank.isDefault()) {
+                            player.sendMessage(Chat.color("&b[SkyRanks] &rThis rank is already the default!"));
+                            return;
+                        }
+                        rank.setDefault();
+                        player.sendMessage(Chat.color("&b[SkyRanks] &rThe default rank has been changed to &b" + rank.getRankIdentifier()));
+                        break;
+                    case "Delete Rank":
+                        player.closeInventory();
+                        player.sendMessage(Chat.color("&b[SkyRanks] &rYou deleted the rank &c" + rank.getRankIdentifier() + "&r!"));
+                        rank.destruct();
+                    default:
+                        break;
                 }
-                if (itemName.equals("Edit Suffix")) {
-                    Conversation.startConversationSetSuffix(player, rank);
-                }
-                if (itemName.equals("Change Chat Color")) {
-                    Conversation.startConversationSetChatColor(player, rank);
-                }
-                if (itemName.equals("Change Name Color")) {
-                    Conversation.startConversationSetNameColor(player, rank);
-                }
-                if (itemName.equals("Change Nickable")) {
-                    rank.setNickable(!rank.isNickable());
-                    player.closeInventory();
-                    if (rank.isNickable()) {
-                        player.sendMessage(Chat.color("&b[SkyRanks] &rUsers can now /nick as &b" + rank.getRankIdentifier()));
-                    } else {
-                        player.sendMessage(Chat.color("&b[SkyRanks] &rUsers can no longer /nick as &b" + rank.getRankIdentifier()));
-                    }
-                }
-                if (itemName.equals("Set Default")) {
-                    player.closeInventory();
-                    if (rank.isDefault()) {
-                        player.sendMessage(Chat.color("&b[SkyRanks] &rThis rank is already the default!"));
-                        return;
-                    }
-                    rank.setDefault();
-                    player.sendMessage(Chat.color("&b[SkyRanks] &rThe default rank has been changed to &b" + rank.getRankIdentifier()));
-                }
-                if (itemName.equals("Delete Rank")) {
-                    player.closeInventory();
-                    player.sendMessage(Chat.color("&b[SkyRanks] &rYou deleted the rank &c" + rank.getRankIdentifier() + "&r!"));
-                    rank.destruct();
-                }
+
             }
         }
-
-
-
     }
-
 }

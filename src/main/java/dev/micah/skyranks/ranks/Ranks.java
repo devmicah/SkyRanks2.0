@@ -12,7 +12,6 @@ public class Ranks {
     public static List<String> getRanks() {
         return config.getStringList("ranks.registered");
     }
-
     private static final YamlConfiguration config = SkyRanks.getPluginInstance().getRanksFile().getConfig();
     private String rankIdentifier;
     private Player player;
