@@ -1,19 +1,11 @@
 package dev.micah.skyranks.conversation.implementation;
 
-import dev.micah.skyranks.conversation.Conversation;
-import dev.micah.skyranks.ranks.Ranks;
+import dev.micah.skyranks.conversation.RankPrompt;
 import dev.micah.skyranks.util.Chat;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 
-public class ConversationSetChatColor extends StringPrompt {
-
-    private Ranks rank;
-
-    public void setRank(Ranks rank) {
-        this.rank = rank;
-    }
+public class ConversationSetChatColor extends RankPrompt {
 
     @Override
     public String getPromptText(ConversationContext context) {
@@ -22,11 +14,11 @@ public class ConversationSetChatColor extends StringPrompt {
 
     @Override
     public Prompt acceptInput(ConversationContext context, String input) {
-        if (!rank.verifyColorCode(input)) {
+        if (!getRank().verifyColorCode(input)) {
             input = "&r";
         }
-        context.getForWhom().sendRawMessage(Chat.color("&b[SkyRanks] &rChanged chat color from " + rank.getChatColor() + "THIS" + " &rto " + input + "THIS"));
-        rank.setChatColor(input);
+        context.getForWhom().sendRawMessage(Chat.color("&b[SkyRanks] &rChanged chat color from " + getRank().getChatColor() + "THIS" + " &rto " + input + "THIS"));
+        getRank().setChatColor(input);
         return null;
     }
 

@@ -67,7 +67,7 @@ public class Ranks {
         return false;
     }
     
-    private boolean exists() {
+    public boolean exists() {
         return config.getStringList("ranks.registered").contains(rankIdentifier);
     }
 

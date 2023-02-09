@@ -17,18 +17,19 @@ public class Conversation {
         SET_PREFIX(new ConversationSetPrefix()),
         SET_SUFFIX(new ConversationSetSuffix());
 
-        StringPrompt prompt;
-        ConversationTopic(StringPrompt prompt) {
+        RankPrompt prompt;
+        ConversationTopic(RankPrompt prompt) {
             this.prompt = prompt;
         }
 
-        public StringPrompt getPrompt() {
+        public RankPrompt getPrompt() {
             return prompt;
         }
 
     }
 
-    public static void buildConversation(Player player, ConversationTopic topic) {
+    public static void buildConversation(Player player, ConversationTopic topic, Ranks rank) {
+        topic.getPrompt().setRank(rank);
         player.closeInventory();
         new ConversationFactory(SkyRanks.getPluginInstance())
                 .withFirstPrompt(topic.getPrompt())

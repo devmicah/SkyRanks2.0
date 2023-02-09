@@ -1,9 +1,9 @@
 package dev.micah.skyranks.gui;
 
-import com.sun.tools.javac.util.Pair;
 import dev.micah.skyranks.ranks.Ranks;
 import dev.micah.skyranks.util.Chat;
 import dev.micah.skyranks.util.Item;
+import dev.micah.skyranks.util.Pair;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +25,7 @@ public class Gui {
     private List<Integer> getRange(List<Pair> values) {
         List<Integer> integers = new ArrayList<>();
         for (Pair pair : values) {
-            integers.addAll(getRange((Integer) pair.fst, (Integer) pair.snd));
+            integers.addAll(getRange((Integer) pair.getFirst(), (Integer) pair.getSecond()));
         }
         return integers;
     }
@@ -60,7 +60,7 @@ public class Gui {
                 Chat.color("&f- &bChat Color ➤ &f" + rank.getChatColor() + "THIS"),
                 Chat.color("&f- &bNickable ➤ &f" + (rank.isNickable() ? "&aTrue" : "&cFalse")),
                 rank.isDefault() ? Chat.color("&7This is the default rank") : " ",
-                display ? Chat.color("&b&lShift + Click &r&bto edit this rank") : ""
+                display ? Chat.color("&b&lYou're editing this rank!") : Chat.color("&b&lShift + Click &r&bto edit this rank")
                 );
     }
 

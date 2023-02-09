@@ -1,18 +1,11 @@
 package dev.micah.skyranks.conversation.implementation;
 
-import dev.micah.skyranks.ranks.Ranks;
+import dev.micah.skyranks.conversation.RankPrompt;
 import dev.micah.skyranks.util.Chat;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 
-public class ConversationSetSuffix extends StringPrompt {
-
-    private Ranks rank;
-
-    public void setRank(Ranks rank) {
-        this.rank = rank;
-    }
+public class ConversationSetSuffix extends RankPrompt {
 
     @Override
     public String getPromptText(ConversationContext context) {
@@ -21,8 +14,8 @@ public class ConversationSetSuffix extends StringPrompt {
 
     @Override
     public Prompt acceptInput(ConversationContext context, String input) {
-        context.getForWhom().sendRawMessage(Chat.color("&b[SkyRanks] &rChanged rank suffix from " + rank.getSuffix() + " &rto " + input));
-        rank.setSuffix(input);
+        context.getForWhom().sendRawMessage(Chat.color("&b[SkyRanks] &rChanged rank suffix from " + (getRank().getSuffix().isEmpty() ? "NONE" : getRank().getSuffix()) + " &rto " + input));
+        getRank().setSuffix(input);
         return null;
     }
 

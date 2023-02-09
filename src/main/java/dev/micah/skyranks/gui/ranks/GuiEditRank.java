@@ -20,6 +20,7 @@ public class GuiEditRank extends Gui {
         this.gui = Bukkit.createInventory(null, 36, Chat.color("&b&lEditing Rank - " + rank));
         this.setOuterBorder(gui);
         gui.setItem(0, createRankItem(rank, true));
+        gui.setItem(27, build("&aGo Back", Material.ARROW));
 
         gui.setItem(gui.firstEmpty(), build("&aEdit Prefix", Material.PAPER, " ", "&7The prefix is a string set to", "&7appear before the users name", "&7in chat."));
         gui.setItem(gui.firstEmpty(), build("&aEdit Suffix", Material.PAPER, " ", "&7The suffix is a string set to", "&7appear after the users name", "&7in chat."));

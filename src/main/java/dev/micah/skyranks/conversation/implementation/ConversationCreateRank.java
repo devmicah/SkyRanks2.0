@@ -1,13 +1,13 @@
 package dev.micah.skyranks.conversation.implementation;
 
+import dev.micah.skyranks.conversation.RankPrompt;
 import dev.micah.skyranks.ranks.Ranks;
 import dev.micah.skyranks.util.Chat;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
-import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 
-public class ConversationCreateRank extends StringPrompt {
+public class ConversationCreateRank extends RankPrompt {
 
     @Override
     public String getPromptText(ConversationContext context) {
